@@ -37,11 +37,17 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          {this.state.token ? (
-            <Home token={this.state.token} />
-          ) : (
+        {this.state.token ? (
+          <Home token={this.state.token} />
+        ) : (
+          <div>
+            <img
+              src={
+                "https://www.iconsdb.com/icons/preview/white/music-note-xxl.png"
+              }
+              className="App-logo"
+              alt="logo"
+            />
             <a
               className="btn btn--loginApp-link"
               href={
@@ -56,11 +62,11 @@ class App extends Component {
             >
               Login to Spotify
             </a>
-          )}
-          {/* {this.state.token && (
+          </div>
+        )}
+        {/* {this.state.token && (
         // Spotify Player Will Go Here In the Next Step
       )} */}
-        </header>
       </div>
     );
   }
