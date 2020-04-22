@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
+
 import { useForm } from "react-hook-form";
-import API from "../api/api";
+// import API from "../api/api";
 import axios from "axios";
 
 export default function UserInputs({ token, updateArtists }) {
