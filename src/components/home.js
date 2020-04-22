@@ -33,7 +33,7 @@ export default function Home({ token }) {
         }}
       >
         <Col md={3} style={{ backgroundColor: "pink" }}>
-          <Preferences />
+          <Preferences token={token} />
         </Col>
         <Col md={7} style={{ backgroundColor: "red" }}>
           <Playlist token={token} />
