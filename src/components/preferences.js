@@ -10,10 +10,10 @@ import SongCount from "./seeds/songCount";
 export default function Preferences({ token, newPlaylist }) {
   const [artistIds, setArtistIds] = useState([]);
   const [artistInfo, updateArtistInfo] = useState([]);
-  const [dance, setDance] = useState(null);
-  const [popularity, setPopularity] = useState(null);
-  const [acoust, setAcoust] = useState(null);
-  const [count, setCount] = useState(null);
+  const [dance, setDance] = useState(50);
+  const [popularity, setPopularity] = useState(50);
+  const [acoust, setAcoust] = useState(50);
+  const [count, setCount] = useState(15);
 
   useEffect(() => {}, [artistIds]);
 
