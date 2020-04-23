@@ -5,7 +5,16 @@ import "./App.css";
 import Home from "./components/home";
 import axios from "axios";
 
+const aws = require("aws-sdk");
+
 // import { clientId, redirectUri, scopes } from "./spotify_config";
+
+var cli = "fa03926404524a918e10b1c07fe31da5";
+
+var redi = "https://salty-taiga-32207.herokuapp.com/oauth";
+
+var scop =
+  "user-read-private  streaming user-read-email playlist-modify-private playlist-modify-public";
 
 class App extends Component {
   constructor() {
@@ -84,12 +93,10 @@ class App extends Component {
               href={
                 "https://accounts.spotify.com/authorize?" +
                 "client_id=" +
-                process.env.CLIENT_ID +
-                (process.env.SCOPES
-                  ? "&scope=" + encodeURIComponent(process.env.SCOPES)
-                  : "") +
+                cli +
+                (scop ? "&scope=" + encodeURIComponent(scop) : "") +
                 "&redirect_uri=" +
-                encodeURIComponent(process.env.REDIRECT_URI) +
+                encodeURIComponent(redi) +
                 "&response_type=token"
               }
               style={{ color: "white", borderColor: "white" }}
