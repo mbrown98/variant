@@ -14,7 +14,9 @@ class App extends Component {
       token: null,
       tokenTimeSet: null,
       userId: null,
+      selectedColor: "black",
     };
+    this.changeColor = this.changeColor.bind(this);
   }
   componentDidMount() {
     var storedToken = sessionStorage.getItem("token");
@@ -22,6 +24,14 @@ class App extends Component {
       this.setState({
         token: storedToken,
       });
+      axios
+        .get("https://api.spotify.com/v1/me", {
+          headers: { Authorization: "Bearer " + storedToken },
+        })
+        .then((response) => {
+          console.log("myInfo", response.data.id);
+          this.setState({ userId: response.data.id });
+        });
     } else {
       let _token = hash.access_token;
       console.log(_token);
@@ -32,24 +42,34 @@ class App extends Component {
         this.setState({
           token: _token,
         });
+        axios
+          .get("https://api.spotify.com/v1/me", {
+            headers: { Authorization: "Bearer " + storedToken },
+          })
+          .then((response) => {
+            console.log("myInfo", response.data.id);
+            this.setState({ userId: response.data.id });
+          });
       }
     }
+  }
 
-    axios
-      .get("https://api.spotify.com/v1/me", {
-        headers: { Authorization: "Bearer " + storedToken },
-      })
-      .then((response) => {
-        console.log("myInfo", response.data.id);
-        this.setState({ userId: response.data.id });
-      });
+  changeColor() {
+    console.log("not implemented yet");
   }
 
   render() {
     return (
-      <div className="App">
+      <div
+        className="App"
+        style={{ backgroundColor: `${this.state.selectedColor}` }}
+      >
         {this.state.token ? (
-          <Home token={this.state.token} userId={this.state.userId} />
+          <Home
+            token={this.state.token}
+            userId={this.state.userId}
+            changeColor={this.changeColor}
+          />
         ) : (
           <div style={{ marginLeft: "30px" }}>
             <img

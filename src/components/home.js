@@ -10,7 +10,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-export default function Home({ token, userId }) {
+export default function Home({ token, userId, changeColor }) {
   const [playlist, setPlaylist] = useState(null);
   const [playlistId, updatePlaylistId] = useState(null);
 
@@ -23,6 +23,10 @@ export default function Home({ token, userId }) {
     updatePlaylistId(null);
     updatePlaylistId(val);
   }
+
+  // function getUpdatedPlaylists(){
+
+  // }
 
   useEffect(() => {}, [playlist]);
 
@@ -50,6 +54,7 @@ export default function Home({ token, userId }) {
       >
         <Col md={3} style={{}}>
           <Preferences
+            changeColor={changeColor}
             token={token}
             newPlaylist={newPlaylist}
             userId={userId}

@@ -15,6 +15,7 @@ export default function Preferences({
   newPlaylist,
   userId,
   setPlaylistId,
+  changeColor,
 }) {
   const [artistIds, setArtistIds] = useState([]);
   const [artistInfo, updateArtistInfo] = useState([]);
@@ -26,6 +27,12 @@ export default function Preferences({
   const [tempo, setTempo] = useState(50);
   const [energy, setEnergy] = useState(50);
 
+  function clearInputs() {
+    console.log("called");
+    setArtistIds([]);
+    updateArtistInfo([]);
+  }
+
   useEffect(() => {}, [artistIds]);
 
   function updateArtists(data) {
@@ -36,7 +43,7 @@ export default function Preferences({
     artistObj.image = data.artists.items[0].images;
     artistObj.popularity = data.artists.items[0].popularity;
     let newArtistInfo = artistInfo.slice(0);
-    updateArtistInfo(null);
+
     newArtistInfo.push(artistObj);
     updateArtistInfo(newArtistInfo);
     let newArtistIds = artistIds.slice(0);
@@ -62,12 +69,20 @@ export default function Preferences({
     let artistNames = artistInfo.map((artist) => {
       return artist.name;
     });
+    let personalId = null;
 
     axios
-      .get(
-        `https://api.spotify.com/v1/recommendations?limit=${count}&market=US&seed_artists=${artists}&target_acousticness=${acoust}&target_valence=${valence}&target_tempo=${tempo}&target_energy=${energy}&target_danceability=${dance}&target_popularity=${popularity}`,
-        { headers: { Authorization: "Bearer " + token } }
-      )
+      .get("https://api.spotify.com/v1/me", {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        personalId = response.data.id;
+        return axios.get(
+          `https://api.spotify.com/v1/recommendations?limit=${count}&market=US&seed_artists=${artists}&target_acousticness=${acoust}&target_valence=${valence}&target_tempo=${tempo}&target_energy=${energy}&target_danceability=${dance}&target_popularity=${popularity}`,
+          { headers: { Authorization: "Bearer " + token } }
+        );
+      })
+
       .then((response) => {
         uriList = response.data.tracks.map((track) => {
           return track.uri;
@@ -75,7 +90,7 @@ export default function Preferences({
         console.log("response", response);
         newPlaylist(response);
         return axios.post(
-          `https://api.spotify.com/v1/users/${userId}/playlists`,
+          `https://api.spotify.com/v1/users/${personalId}/playlists`,
           {
             name: `${artistNames}`,
           },
@@ -143,10 +158,10 @@ export default function Preferences({
       <div
         style={{
           width: "100%",
-          height: "20%",
+          height: "18%",
         }}
       >
-        <Title />
+        <Title changeColor={changeColor} />
       </div>
       <div
         style={{
@@ -155,18 +170,30 @@ export default function Preferences({
         }}
       >
         {/* selected artists */}
-        {artistInfo &&
-          artistInfo.map((artist) => {
-            return <div>{artist.name}</div>;
-          })}
+
         <div
           style={{
-            height: "15%",
+            height: "20%",
             width: "100%",
           }}
         >
-          {" "}
-          <AddArtist token={token} updateArtists={updateArtists} />
+          {artistInfo &&
+            artistInfo.map((artist) => {
+              return (
+                <span>
+                  {/* {artist.name} */}
+                  {"        "}
+                  <img src={artist.image[0].url} style={{ height: "8vh" }} />
+                </span>
+              );
+            })}{" "}
+          {artistInfo.length < 5 && (
+            <AddArtist
+              token={token}
+              updateArtists={updateArtists}
+              artistInfo={artistInfo}
+            />
+          )}
         </div>
         <div
           style={{
@@ -220,7 +247,7 @@ export default function Preferences({
 
         <div
           style={{
-            height: "15%",
+            height: "10%",
             marginTop: "2%",
             marginBottom: "4%",
           }}
@@ -229,7 +256,12 @@ export default function Preferences({
           <SongCount updateCount={updateCount} />
         </div>
         <div
-          style={{ height: "10%", marginLeft: "15%", marginTop: "2%" }}
+          style={{
+            height: "10%",
+            marginRight: "18vh",
+            marginTop: "2%",
+            float: "right",
+          }}
           onClick={() => {
             getPlaylist(
               artistIds,
@@ -252,6 +284,14 @@ export default function Preferences({
             alt="logo"
           />
         </div>
+        <span
+          onClick={() => {
+            clearInputs();
+          }}
+          style={{ borderTopColor: "white" }}
+        >
+          <div style={{ fontSize: "30px" }}>Clear</div>
+        </span>
       </div>
     </div>
   );

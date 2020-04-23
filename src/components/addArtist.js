@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 // import API from "../api/api";
 import axios from "axios";
 
-export default function UserInputs({ token, updateArtists }) {
+export default function UserInputs({ token, updateArtists, artistInfo }) {
   const [currentValue, setValue] = useState("");
   function handleSubmit(event) {
     event.preventDefault();
@@ -13,6 +13,7 @@ export default function UserInputs({ token, updateArtists }) {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {
+        console.log(response.data);
         let artistInfo = response.data;
         setValue("");
         updateArtists(artistInfo);
@@ -23,8 +24,7 @@ export default function UserInputs({ token, updateArtists }) {
   }
 
   return (
-    <form style={{}} onSubmit={handleSubmit}>
-      <h4>Add Artist</h4>
+    <form style={{ marginTop: "5px" }} onSubmit={handleSubmit}>
       <input
         style={{
           backgroundColor: "black",
@@ -35,6 +35,7 @@ export default function UserInputs({ token, updateArtists }) {
         }}
         type="text"
         value={currentValue}
+        placeholder={"artist"}
         onChange={handleChange}
       />
 
