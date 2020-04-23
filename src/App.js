@@ -5,7 +5,7 @@ import "./App.css";
 import Home from "./components/home";
 import axios from "axios";
 
-import { clientId, redirectUri, scopes } from "./spotify_config";
+// import { clientId, redirectUri, scopes } from "./spotify_config";
 
 class App extends Component {
   constructor() {
@@ -85,10 +85,12 @@ class App extends Component {
               href={
                 "https://accounts.spotify.com/authorize?" +
                 "client_id=" +
-                clientId +
-                (scopes ? "&scope=" + encodeURIComponent(scopes) : "") +
+                process.env.CLIENT_ID +
+                (process.env.SCOPES
+                  ? "&scope=" + encodeURIComponent(process.env.SCOPES)
+                  : "") +
                 "&redirect_uri=" +
-                encodeURIComponent(redirectUri) +
+                encodeURIComponent(process.env.REDIRECT_URI) +
                 "&response_type=token"
               }
               style={{ color: "white", borderColor: "white" }}
