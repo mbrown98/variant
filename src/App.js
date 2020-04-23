@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import hash from "./hash";
-import logo from "./logo.svg";
+
 import "./App.css";
 import Home from "./components/home";
 import axios from "axios";
