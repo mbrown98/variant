@@ -1,42 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { Slider } from "@material-ui/core";
 
-export default function Acousticness({ updateAcoust }) {
-  const [currentValue, setValue] = useState(50);
-  function handleSubmit(event) {
-    event.preventDefault();
-    updateAcoust(currentValue);
-  }
-  function handleChange(event) {
-    setValue(event.target.value);
-  }
+export default function Popularity({ updateAcoust }) {
+  const [val, setValue] = useState(50);
+
+  const handleChange = (name) => (e, value) => {
+    console.log("vlaue", value);
+    setValue(value);
+    updateAcoust(value);
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h4>Acousticness</h4>
-      <input
-        style={{
-          backgroundColor: "black",
-          borderTopColor: "#00000000",
-          borderLeftColor: "#00000000",
-          borderRightColor: "#00000000",
-          color: "white",
-        }}
-        type="text"
-        value={currentValue}
-        onChange={handleChange}
+    <div style={{ width: "80%" }}>
+      <p>Popularity</p>{" "}
+      <Slider
+        defaultValue={50}
+        value={val}
+        aria-labelledby="label"
+        onChange={handleChange("slider1")}
       />
-
-      <input
-        style={{
-          marginLeft: "10px",
-          fontSize: "20px",
-          background: "black",
-          color: "white",
-          borderColor: "black",
-        }}
-        type="submit"
-        value="✓"
-      />
-    </form>
+    </div>
   );
 }
