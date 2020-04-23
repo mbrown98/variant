@@ -7,7 +7,12 @@ import Popularity from "./seeds/popularity";
 import Acousticness from "./seeds/acousticness";
 import SongCount from "./seeds/songCount";
 
-export default function Preferences({ token, newPlaylist, userId }) {
+export default function Preferences({
+  token,
+  newPlaylist,
+  userId,
+  setPlaylistId,
+}) {
   const [artistIds, setArtistIds] = useState([]);
   const [artistInfo, updateArtistInfo] = useState([]);
   const [dance, setDance] = useState(50);
@@ -35,6 +40,7 @@ export default function Preferences({ token, newPlaylist, userId }) {
   }
 
   function getPlaylist(artistIds, dance, acoust, popularity, count) {
+    let uriList = [];
     const artists = artistIds.toString();
     console.log("art", artists);
     axios
@@ -43,9 +49,12 @@ export default function Preferences({ token, newPlaylist, userId }) {
         { headers: { Authorization: "Bearer " + token } }
       )
       .then((response) => {
+        uriList = response.data.tracks.map((track) => {
+          return track.uri;
+        });
         console.log("response", response);
         newPlaylist(response);
-        axios.post(
+        return axios.post(
           `https://api.spotify.com/v1/users/${userId}/playlists`,
           {
             name: "Test Playlist",
@@ -59,6 +68,22 @@ export default function Preferences({ token, newPlaylist, userId }) {
       })
       .then((response) => {
         console.log(response);
+        console.log("URRRIISS", uriList);
+        let playlist_id = response.data.id;
+        setPlaylistId(playlist_id);
+        let uris = uriList.toString();
+
+        return axios.post(
+          `https://api.spotify.com/v1/playlists/${playlist_id}/tracks?uris=${uris}`,
+          {
+            name: "First Playlist",
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
       });
   }
 
@@ -89,7 +114,7 @@ export default function Preferences({ token, newPlaylist, userId }) {
       <div
         style={{
           width: "100%",
-          height: "15%",
+          height: "20%",
         }}
       >
         <Title />
@@ -97,7 +122,7 @@ export default function Preferences({ token, newPlaylist, userId }) {
       <div
         style={{
           width: "100%",
-          height: "85%",
+          height: "80%",
         }}
       >
         {/* selected artists */}

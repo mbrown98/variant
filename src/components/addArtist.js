@@ -23,9 +23,20 @@ export default function UserInputs({ token, updateArtists }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form style={{}} onSubmit={handleSubmit}>
       <h4>Add Artist</h4>
-      <input type="text" value={currentValue} onChange={handleChange} />
+      <input
+        style={{
+          backgroundColor: "black",
+          borderTopColor: "#00000000",
+          borderLeftColor: "#00000000",
+          borderRightColor: "#00000000",
+          color: "white",
+        }}
+        type="text"
+        value={currentValue}
+        onChange={handleChange}
+      />
 
       <input
         style={{

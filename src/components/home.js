@@ -5,18 +5,31 @@ import axios from "axios";
 import Playlist from "./playlist";
 import Preferences from "./preferences";
 import Recommendations from "./recommendations";
+import RecentPlaylists from "./recentPlaylists";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 export default function Home({ token, userId }) {
   const [playlist, setPlaylist] = useState(null);
+  const [playlistId, updatePlaylistId] = useState(null);
+  const [currentlyPlaying, updateCurrentlyPlaying] = useState(null);
   function newPlaylist(data) {
     console.log("made it here", data);
     setPlaylist(data);
   }
 
-  useEffect(() => {}, [playlist]);
+  function setPlaylistId(val) {
+    updatePlaylistId(null);
+    updatePlaylistId(val);
+  }
+
+  function setCurrentlyPlaying(val) {
+    console.log("clicked", val);
+    updateCurrentlyPlaying(val);
+  }
+
+  useEffect(() => {}, [playlist, currentlyPlaying]);
 
   return (
     <Container
@@ -45,13 +58,20 @@ export default function Home({ token, userId }) {
             token={token}
             newPlaylist={newPlaylist}
             userId={userId}
+            setPlaylistId={setPlaylistId}
           />
         </Col>
         <Col md={7} style={{}}>
-          <Playlist token={token} playlist={playlist} userId={userId} />
+          <Playlist
+            token={token}
+            playlist={playlist}
+            userId={userId}
+            playlistId={playlistId}
+            setPlaylistId={setPlaylistId}
+          />
         </Col>
         <Col md={2} style={{}}>
-          <Recommendations />
+          <RecentPlaylists token={token} setPlaylistId={setPlaylistId} />
         </Col>
       </Row>
     </Container>
