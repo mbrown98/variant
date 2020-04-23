@@ -34,7 +34,6 @@ class App extends Component {
         });
     } else {
       let _token = hash.access_token;
-      console.log(_token);
 
       if (_token) {
         // Set token
