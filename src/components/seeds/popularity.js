@@ -12,7 +12,18 @@ export default function Popularity({ updatePopularity }) {
 
   return (
     <div style={{ width: "80%" }}>
-      <p>Popularity</p>{" "}
+      <div>
+        Popularity{" "}
+        <span
+          onClick={() => {
+            window.alert(
+              "In general the more a song is played the higher its popularity. The popularity rating is based on total number of plays compared to other tracks as well as how recent those plays are. "
+            );
+          }}
+        >
+          ⓘ
+        </span>
+      </div>{" "}
       <Slider
         defaultValue={50}
         value={val}

@@ -15,16 +15,6 @@ export default function Playlist({
   //   //if you pass a value to array, like this [data] than clearTimeout will run every time this value changes (useEffect re-run)
   // );
 
-  function removePlaylist(playlistId) {
-    axios
-      .delete(`https://api.spotify.com/v1/playlists/${playlistId}/followers`, {
-        headers: { Authorization: "Bearer " + token },
-      })
-      .then((response) => {
-        console.log("deleted", response);
-      });
-  }
-
   return (
     <div style={{ height: "100vh" }}>
       {playlistId ? (
@@ -37,13 +27,6 @@ export default function Playlist({
             allowtransparency="true"
             allow="encrypted-media"
           ></iframe>
-          <p
-            onClick={() => {
-              removePlaylist(playlistId);
-            }}
-          >
-            Delete
-          </p>
         </div>
       ) : (
         <div></div>

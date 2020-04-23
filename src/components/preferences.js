@@ -6,6 +6,9 @@ import Danceability from "./seeds/danceability";
 import Popularity from "./seeds/popularity";
 import Acousticness from "./seeds/acousticness";
 import SongCount from "./seeds/songCount";
+import Tempo from "./seeds/tempo";
+import Energy from "./seeds/energy";
+import Valence from "./seeds/valence";
 
 export default function Preferences({
   token,
@@ -18,7 +21,10 @@ export default function Preferences({
   const [dance, setDance] = useState(50);
   const [popularity, setPopularity] = useState(50);
   const [acoust, setAcoust] = useState(50);
-  const [count, setCount] = useState(15);
+  const [count, setCount] = useState(25);
+  const [valence, setValence] = useState(50);
+  const [tempo, setTempo] = useState(50);
+  const [energy, setEnergy] = useState(50);
 
   useEffect(() => {}, [artistIds]);
 
@@ -39,13 +45,27 @@ export default function Preferences({
     setArtistIds(newArtistIds);
   }
 
-  function getPlaylist(artistIds, dance, acoust, popularity, count) {
+  function getPlaylist(
+    artistIds,
+    dance,
+    acoust,
+    popularity,
+    count,
+    valence,
+    tempo,
+    energy
+  ) {
     let uriList = [];
     const artists = artistIds.toString();
     console.log("art", artists);
+    console.log("artisitInfo", artistInfo);
+    let artistNames = artistInfo.map((artist) => {
+      return artist.name;
+    });
+
     axios
       .get(
-        `https://api.spotify.com/v1/recommendations?limit=${count}&market=US&seed_artists=${artists}&target_acousticness=${acoust}&target_danceability=${dance}&target_popularity=${popularity}`,
+        `https://api.spotify.com/v1/recommendations?limit=${count}&market=US&seed_artists=${artists}&target_acousticness=${acoust}&target_valence=${valence}&target_tempo=${tempo}&target_energy=${energy}&target_danceability=${dance}&target_popularity=${popularity}`,
         { headers: { Authorization: "Bearer " + token } }
       )
       .then((response) => {
@@ -57,7 +77,7 @@ export default function Preferences({
         return axios.post(
           `https://api.spotify.com/v1/users/${userId}/playlists`,
           {
-            name: "Test Playlist",
+            name: `${artistNames}`,
           },
           {
             headers: {
@@ -91,17 +111,26 @@ export default function Preferences({
     setDance(val);
   }
   function updateAcoust(val) {
-    // console.log("danceVal", val);
     setAcoust(val);
   }
 
   function updatePopularity(val) {
-    // console.log("danceVal", val);
     setPopularity(val);
   }
   function updateCount(val) {
-    // console.log("danceVal", val);
     setCount(val);
+  }
+
+  function updateTempo(val) {
+    setTempo(val);
+  }
+
+  function updateEnergy(val) {
+    setEnergy(val);
+  }
+
+  function updateValence(val) {
+    setValence(val);
   }
 
   return (
@@ -133,6 +162,7 @@ export default function Preferences({
         <div
           style={{
             height: "15%",
+            width: "100%",
           }}
         >
           {" "}
@@ -140,15 +170,7 @@ export default function Preferences({
         </div>
         <div
           style={{
-            height: "15%",
-          }}
-        >
-          {" "}
-          <Danceability updateDance={updateDance} />
-        </div>
-        <div
-          style={{
-            height: "15%",
+            height: "8%",
           }}
         >
           {" "}
@@ -156,7 +178,32 @@ export default function Preferences({
         </div>
         <div
           style={{
-            height: "15%",
+            height: "8%",
+          }}
+        >
+          {" "}
+          <Energy updateEnergy={updateEnergy} />
+        </div>
+        <div
+          style={{
+            height: "8%",
+          }}
+        >
+          {" "}
+          <Valence updateValence={updateValence} />
+        </div>
+        <div
+          style={{
+            height: "8%",
+          }}
+        >
+          {" "}
+          <Danceability updateDance={updateDance} />
+        </div>
+
+        <div
+          style={{
+            height: "8%",
           }}
         >
           {" "}
@@ -164,28 +211,47 @@ export default function Preferences({
         </div>
         <div
           style={{
+            height: "8%",
+          }}
+        >
+          {" "}
+          <Tempo updateTempo={updateTempo} />
+        </div>
+
+        <div
+          style={{
             height: "15%",
+            marginTop: "2%",
+            marginBottom: "4%",
           }}
         >
           {" "}
           <SongCount updateCount={updateCount} />
         </div>
-
-        <p
+        <div
+          style={{ height: "10%", marginLeft: "15%", marginTop: "2%" }}
           onClick={() => {
-            console.log(
-              "all vals",
+            getPlaylist(
               artistIds,
               dance,
               acoust,
               popularity,
-              count
+              count,
+              valence,
+              tempo,
+              energy
             );
-            getPlaylist(artistIds, dance, acoust, popularity, count);
           }}
         >
-          Search
-        </p>
+          <img
+            style={{ height: "4rem" }}
+            src={
+              "https://www.iconsdb.com/icons/preview/white/music-note-xxl.png"
+            }
+            className="App-logo"
+            alt="logo"
+          />
+        </div>
       </div>
     </div>
   );

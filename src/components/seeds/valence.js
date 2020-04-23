@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { Slider } from "@material-ui/core";
 
-export default function Popularity({ updateAcoust }) {
+export default function Valence({ updateValence }) {
   const [val, setValue] = useState(50);
 
   const handleChange = (name) => (e, value) => {
     console.log("vlaue", value);
     setValue(value);
-    updateAcoust(value);
+    updateValence(value);
   };
 
   return (
     <div style={{ width: "80%" }}>
       <div>
-        Acousticness{" "}
+        Valence{" "}
         <span
           onClick={() => {
             window.alert(
-              "A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic."
+              "Valence: A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)."
             );
           }}
         >
           ⓘ
         </span>
-      </div>
+      </div>{" "}
       <Slider
         defaultValue={50}
         value={val}

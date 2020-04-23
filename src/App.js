@@ -51,7 +51,7 @@ class App extends Component {
         {this.state.token ? (
           <Home token={this.state.token} userId={this.state.userId} />
         ) : (
-          <div>
+          <div style={{ marginLeft: "30px" }}>
             <img
               src={
                 "https://www.iconsdb.com/icons/preview/white/music-note-xxl.png"
@@ -59,6 +59,7 @@ class App extends Component {
               className="App-logo"
               alt="logo"
             />
+            <div style={{ fontSize: "25vh", maxHeight: "50%" }}>variant</div>
             <a
               className="btn btn--loginApp-link"
               href={
@@ -70,6 +71,7 @@ class App extends Component {
                 encodeURIComponent(redirectUri) +
                 "&response_type=token"
               }
+              style={{ color: "white", borderColor: "white" }}
             >
               Login to Spotify
             </a>

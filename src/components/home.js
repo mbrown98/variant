@@ -13,7 +13,7 @@ import Col from "react-bootstrap/Col";
 export default function Home({ token, userId }) {
   const [playlist, setPlaylist] = useState(null);
   const [playlistId, updatePlaylistId] = useState(null);
-  const [currentlyPlaying, updateCurrentlyPlaying] = useState(null);
+
   function newPlaylist(data) {
     console.log("made it here", data);
     setPlaylist(data);
@@ -24,12 +24,7 @@ export default function Home({ token, userId }) {
     updatePlaylistId(val);
   }
 
-  function setCurrentlyPlaying(val) {
-    console.log("clicked", val);
-    updateCurrentlyPlaying(val);
-  }
-
-  useEffect(() => {}, [playlist, currentlyPlaying]);
+  useEffect(() => {}, [playlist]);
 
   return (
     <Container

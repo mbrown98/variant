@@ -12,7 +12,18 @@ export default function Popularity({ updateDance }) {
 
   return (
     <div style={{ width: "80%" }}>
-      <p>Popularity</p>{" "}
+      <div>
+        Danceability{" "}
+        <span
+          onClick={() => {
+            window.alert(
+              "Describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable."
+            );
+          }}
+        >
+          ⓘ
+        </span>
+      </div>{" "}
       <Slider
         defaultValue={50}
         value={val}
