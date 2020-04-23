@@ -15,7 +15,14 @@ export default function Playlist({ playlist, token }) {
           })}
         </div>
       ) : (
-        <div>Add some Songs</div>
+        <iframe
+          src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3"
+          width="800"
+          height="1000px"
+          frameborder="0"
+          allowtransparency="true"
+          allow="encrypted-media"
+        ></iframe>
       )}
     </div>
   );

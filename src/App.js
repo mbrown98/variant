@@ -3,6 +3,7 @@ import hash from "./hash";
 import logo from "./logo.svg";
 import "./App.css";
 import Home from "./components/home";
+import axios from "axios";
 
 import { clientId, redirectUri, scopes } from "./spotify_config";
 
@@ -12,6 +13,7 @@ class App extends Component {
     this.state = {
       token: null,
       tokenTimeSet: null,
+      userId: null,
     };
   }
   componentDidMount() {
@@ -32,13 +34,22 @@ class App extends Component {
         });
       }
     }
+
+    axios
+      .get("https://api.spotify.com/v1/me", {
+        headers: { Authorization: "Bearer " + storedToken },
+      })
+      .then((response) => {
+        console.log("myInfo", response.data.id);
+        this.setState({ userId: response.data.id });
+      });
   }
 
   render() {
     return (
       <div className="App">
         {this.state.token ? (
-          <Home token={this.state.token} />
+          <Home token={this.state.token} userId={this.state.userId} />
         ) : (
           <div>
             <img

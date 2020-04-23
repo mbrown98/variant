@@ -7,7 +7,7 @@ import Popularity from "./seeds/popularity";
 import Acousticness from "./seeds/acousticness";
 import SongCount from "./seeds/songCount";
 
-export default function Preferences({ token, newPlaylist }) {
+export default function Preferences({ token, newPlaylist, userId }) {
   const [artistIds, setArtistIds] = useState([]);
   const [artistInfo, updateArtistInfo] = useState([]);
   const [dance, setDance] = useState(50);
@@ -45,6 +45,20 @@ export default function Preferences({ token, newPlaylist }) {
       .then((response) => {
         console.log("response", response);
         newPlaylist(response);
+        axios.post(
+          `https://api.spotify.com/v1/users/${userId}/playlists`,
+          {
+            name: "Test Playlist",
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+      })
+      .then((response) => {
+        console.log(response);
       });
   }
 

@@ -9,7 +9,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-export default function Home({ token }) {
+export default function Home({ token, userId }) {
   const [playlist, setPlaylist] = useState(null);
   function newPlaylist(data) {
     console.log("made it here", data);
@@ -41,10 +41,14 @@ export default function Home({ token }) {
         }}
       >
         <Col md={3} style={{}}>
-          <Preferences token={token} newPlaylist={newPlaylist} />
+          <Preferences
+            token={token}
+            newPlaylist={newPlaylist}
+            userId={userId}
+          />
         </Col>
         <Col md={7} style={{}}>
-          <Playlist token={token} playlist={playlist} />
+          <Playlist token={token} playlist={playlist} userId={userId} />
         </Col>
         <Col md={2} style={{}}>
           <Recommendations />
