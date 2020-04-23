@@ -12,9 +12,20 @@ export default function Popularity({ updatePopularity }) {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h4>Popularity</h4>
       <input type="text" value={currentValue} onChange={handleChange} />
 
-      <input type="submit" value="Popu" />
+      <input
+        style={{
+          marginLeft: "10px",
+          fontSize: "20px",
+          background: "black",
+          color: "white",
+          borderColor: "black",
+        }}
+        type="submit"
+        value="✓"
+      />
     </form>
   );
 }

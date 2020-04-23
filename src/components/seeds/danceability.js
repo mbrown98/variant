@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
-import { useForm } from "react-hook-form";
-import axios from "axios";
+import ReactBootstrapSlider from "react-bootstrap-slider";
 
 export default function Danceability({ updateDance }) {
   const [currentValue, setValue] = useState(50);
@@ -15,9 +13,20 @@ export default function Danceability({ updateDance }) {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h4>Danceability</h4>
       <input type="text" value={currentValue} onChange={handleChange} />
 
-      <input type="submit" value="Dance" />
+      <input
+        style={{
+          marginLeft: "10px",
+          fontSize: "20px",
+          background: "black",
+          color: "white",
+          borderColor: "black",
+        }}
+        type="submit"
+        value="✓"
+      />
     </form>
   );
 }

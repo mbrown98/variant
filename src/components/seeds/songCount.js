@@ -15,9 +15,20 @@ export default function SongCount({ updateCount }) {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h4>Song Count</h4>
       <input type="text" value={currentValue} onChange={handleChange} />
 
-      <input type="submit" value="Count" />
+      <input
+        style={{
+          marginLeft: "10px",
+          fontSize: "20px",
+          background: "black",
+          color: "white",
+          borderColor: "black",
+        }}
+        type="submit"
+        value="✓"
+      />
     </form>
   );
 }

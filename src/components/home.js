@@ -10,6 +10,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 export default function Home({ token }) {
+  const [playlist, setPlaylist] = useState(null);
+  function newPlaylist(data) {
+    console.log("made it here", data);
+    setPlaylist(data);
+  }
+
+  useEffect(() => {}, [playlist]);
+
   return (
     <Container
       style={{
@@ -32,13 +40,13 @@ export default function Home({ token }) {
           height: "100%",
         }}
       >
-        <Col md={3} style={{ backgroundColor: "pink" }}>
-          <Preferences token={token} />
+        <Col md={3} style={{}}>
+          <Preferences token={token} newPlaylist={newPlaylist} />
         </Col>
-        <Col md={7} style={{ backgroundColor: "red" }}>
-          <Playlist token={token} />
+        <Col md={7} style={{}}>
+          <Playlist token={token} playlist={playlist} />
         </Col>
-        <Col md={2} style={{ backgroundColor: "yellow" }}>
+        <Col md={2} style={{}}>
           <Recommendations />
         </Col>
       </Row>

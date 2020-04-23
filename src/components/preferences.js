@@ -7,24 +7,48 @@ import Popularity from "./seeds/popularity";
 import Acousticness from "./seeds/acousticness";
 import SongCount from "./seeds/songCount";
 
-export default function Preferences({ token }) {
+export default function Preferences({ token, newPlaylist }) {
   const [artistIds, setArtistIds] = useState([]);
+  const [artistInfo, updateArtistInfo] = useState([]);
   const [dance, setDance] = useState(null);
   const [popularity, setPopularity] = useState(null);
   const [acoust, setAcoust] = useState(null);
   const [count, setCount] = useState(null);
 
-  function updateArtists(newId) {
-    console.log("called");
-    console.log(artistIds);
-    let newArtistIds = artistIds;
-    newArtistIds.push(newId);
-    console.log("new", newArtistIds);
+  useEffect(() => {}, [artistIds]);
+
+  function updateArtists(data) {
+    console.log("data", data);
+    let artistObj = {};
+    artistObj.id = data.artists.items[0].id;
+    artistObj.name = data.artists.items[0].name;
+    artistObj.image = data.artists.items[0].images;
+    artistObj.popularity = data.artists.items[0].popularity;
+    let newArtistInfo = artistInfo.slice(0);
+    updateArtistInfo(null);
+    newArtistInfo.push(artistObj);
+    updateArtistInfo(newArtistInfo);
+    let newArtistIds = artistIds.slice(0);
+    setArtistIds(null);
+    newArtistIds.push(artistObj.id);
     setArtistIds(newArtistIds);
   }
 
+  function getPlaylist(artistIds, dance, acoust, popularity, count) {
+    const artists = artistIds.toString();
+    console.log("art", artists);
+    axios
+      .get(
+        `https://api.spotify.com/v1/recommendations?limit=${count}&market=US&seed_artists=${artists}&target_acousticness=${acoust}&target_danceability=${dance}&target_popularity=${popularity}`,
+        { headers: { Authorization: "Bearer " + token } }
+      )
+      .then((response) => {
+        console.log("response", response);
+        newPlaylist(response);
+      });
+  }
+
   function updateDance(val) {
-    console.log("danceVal", val);
     setDance(val);
   }
   function updateAcoust(val) {
@@ -41,18 +65,6 @@ export default function Preferences({ token }) {
     setCount(val);
   }
 
-  function getPlaylist(artistIds, dance, acoust, popularity, count) {
-    const artists = "hello";
-    axios
-      .get(
-        `https://api.spotify.com/v1/recommendations?limit=${count}&market=US&seed_artists=${artists}&target_acousticness=${acoust}&target_danceability=${dance}&target_popularity=${popularity}`,
-        { headers: { Authorization: "Bearer " + token } }
-      )
-      .then((response) => {
-        console.log("response", response);
-      });
-  }
-
   return (
     <div
       style={{
@@ -64,7 +76,6 @@ export default function Preferences({ token }) {
         style={{
           width: "100%",
           height: "15%",
-          backgroundColor: "blue",
         }}
       >
         <Title />
@@ -73,15 +84,54 @@ export default function Preferences({ token }) {
         style={{
           width: "100%",
           height: "85%",
-          backgroundColor: "white",
         }}
       >
         {/* selected artists */}
-        <AddArtist token={token} updateArtists={updateArtists} />
-        <Danceability updateDance={updateDance} />
-        <Popularity updatePopularity={updatePopularity} />
-        <Acousticness updateAcoust={updateAcoust} />
-        <SongCount updateCount={updateCount} />
+        {artistInfo &&
+          artistInfo.map((artist) => {
+            return <div>{artist.name}</div>;
+          })}
+        <div
+          style={{
+            height: "15%",
+          }}
+        >
+          {" "}
+          <AddArtist token={token} updateArtists={updateArtists} />
+        </div>
+        <div
+          style={{
+            height: "15%",
+          }}
+        >
+          {" "}
+          <Danceability updateDance={updateDance} />
+        </div>
+        <div
+          style={{
+            height: "15%",
+          }}
+        >
+          {" "}
+          <Popularity updatePopularity={updatePopularity} />
+        </div>
+        <div
+          style={{
+            height: "15%",
+          }}
+        >
+          {" "}
+          <Acousticness updateAcoust={updateAcoust} />
+        </div>
+        <div
+          style={{
+            height: "15%",
+          }}
+        >
+          {" "}
+          <SongCount updateCount={updateCount} />
+        </div>
+
         <p
           onClick={() => {
             console.log(
