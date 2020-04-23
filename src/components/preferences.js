@@ -16,6 +16,7 @@ export default function Preferences({
   userId,
   setPlaylistId,
   changeColor,
+  getUserPlaylists,
 }) {
   const [artistIds, setArtistIds] = useState([]);
   const [artistInfo, updateArtistInfo] = useState([]);
@@ -119,6 +120,9 @@ export default function Preferences({
             },
           }
         );
+      })
+      .then((response) => {
+        getUserPlaylists();
       });
   }
 
