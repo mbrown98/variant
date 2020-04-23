@@ -1,32 +1,35 @@
 import React, { useState, useEffect } from "react";
-import ReactBootstrapSlider from "react-bootstrap-slider";
+import { Slider } from "@material-ui/core";
 
-export default function Danceability({ updateDance }) {
-  const [currentValue, setValue] = useState(50);
-  function handleSubmit(event) {
-    event.preventDefault();
-    updateDance(currentValue);
-  }
-  function handleChange(event) {
-    setValue(event.target.value);
-  }
+export default function Popularity({ updateDance }) {
+  const [val, setValue] = useState(50);
+
+  const handleChange = (name) => (e, value) => {
+    console.log("vlaue", value);
+    setValue(value);
+    updateDance(value);
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h4>Danceability</h4>
-      <input type="text" value={currentValue} onChange={handleChange} />
-
-      <input
-        style={{
-          marginLeft: "10px",
-          fontSize: "20px",
-          background: "black",
-          color: "white",
-          borderColor: "black",
-        }}
-        type="submit"
-        value="✓"
+    <div style={{ width: "80%" }}>
+      <div>
+        Danceability{" "}
+        <span
+          onClick={() => {
+            window.alert(
+              "Describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable."
+            );
+          }}
+        >
+          ⓘ
+        </span>
+      </div>{" "}
+      <Slider
+        defaultValue={50}
+        value={val}
+        aria-labelledby="label"
+        onChange={handleChange("slider1")}
       />
-    </form>
+    </div>
   );
 }

@@ -6,14 +6,32 @@ import Danceability from "./seeds/danceability";
 import Popularity from "./seeds/popularity";
 import Acousticness from "./seeds/acousticness";
 import SongCount from "./seeds/songCount";
+import Tempo from "./seeds/tempo";
+import Energy from "./seeds/energy";
+import Valence from "./seeds/valence";
 
-export default function Preferences({ token, newPlaylist }) {
+export default function Preferences({
+  token,
+  newPlaylist,
+  userId,
+  setPlaylistId,
+  changeColor,
+}) {
   const [artistIds, setArtistIds] = useState([]);
   const [artistInfo, updateArtistInfo] = useState([]);
   const [dance, setDance] = useState(50);
   const [popularity, setPopularity] = useState(50);
   const [acoust, setAcoust] = useState(50);
-  const [count, setCount] = useState(15);
+  const [count, setCount] = useState(25);
+  const [valence, setValence] = useState(50);
+  const [tempo, setTempo] = useState(50);
+  const [energy, setEnergy] = useState(50);
+
+  function clearInputs() {
+    console.log("called");
+    setArtistIds([]);
+    updateArtistInfo([]);
+  }
 
   useEffect(() => {}, [artistIds]);
 
@@ -25,7 +43,7 @@ export default function Preferences({ token, newPlaylist }) {
     artistObj.image = data.artists.items[0].images;
     artistObj.popularity = data.artists.items[0].popularity;
     let newArtistInfo = artistInfo.slice(0);
-    updateArtistInfo(null);
+
     newArtistInfo.push(artistObj);
     updateArtistInfo(newArtistInfo);
     let newArtistIds = artistIds.slice(0);
@@ -34,17 +52,73 @@ export default function Preferences({ token, newPlaylist }) {
     setArtistIds(newArtistIds);
   }
 
-  function getPlaylist(artistIds, dance, acoust, popularity, count) {
+  function getPlaylist(
+    artistIds,
+    dance,
+    acoust,
+    popularity,
+    count,
+    valence,
+    tempo,
+    energy
+  ) {
+    let uriList = [];
     const artists = artistIds.toString();
     console.log("art", artists);
+    console.log("artisitInfo", artistInfo);
+    let artistNames = artistInfo.map((artist) => {
+      return artist.name;
+    });
+    let personalId = null;
+
     axios
-      .get(
-        `https://api.spotify.com/v1/recommendations?limit=${count}&market=US&seed_artists=${artists}&target_acousticness=${acoust}&target_danceability=${dance}&target_popularity=${popularity}`,
-        { headers: { Authorization: "Bearer " + token } }
-      )
+      .get("https://api.spotify.com/v1/me", {
+        headers: { Authorization: "Bearer " + token },
+      })
       .then((response) => {
+        personalId = response.data.id;
+        return axios.get(
+          `https://api.spotify.com/v1/recommendations?limit=${count}&market=US&seed_artists=${artists}&target_acousticness=${acoust}&target_valence=${valence}&target_tempo=${tempo}&target_energy=${energy}&target_danceability=${dance}&target_popularity=${popularity}`,
+          { headers: { Authorization: "Bearer " + token } }
+        );
+      })
+
+      .then((response) => {
+        uriList = response.data.tracks.map((track) => {
+          return track.uri;
+        });
         console.log("response", response);
         newPlaylist(response);
+        return axios.post(
+          `https://api.spotify.com/v1/users/${personalId}/playlists`,
+          {
+            name: `${artistNames}`,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+      })
+      .then((response) => {
+        console.log(response);
+        console.log("URRRIISS", uriList);
+        let playlist_id = response.data.id;
+        setPlaylistId(playlist_id);
+        let uris = uriList.toString();
+
+        return axios.post(
+          `https://api.spotify.com/v1/playlists/${playlist_id}/tracks?uris=${uris}`,
+          {
+            name: "First Playlist",
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
       });
   }
 
@@ -52,17 +126,26 @@ export default function Preferences({ token, newPlaylist }) {
     setDance(val);
   }
   function updateAcoust(val) {
-    // console.log("danceVal", val);
     setAcoust(val);
   }
 
   function updatePopularity(val) {
-    // console.log("danceVal", val);
     setPopularity(val);
   }
   function updateCount(val) {
-    // console.log("danceVal", val);
     setCount(val);
+  }
+
+  function updateTempo(val) {
+    setTempo(val);
+  }
+
+  function updateEnergy(val) {
+    setEnergy(val);
+  }
+
+  function updateValence(val) {
+    setValence(val);
   }
 
   return (
@@ -75,41 +158,46 @@ export default function Preferences({ token, newPlaylist }) {
       <div
         style={{
           width: "100%",
-          height: "15%",
+          height: "18%",
         }}
       >
-        <Title />
+        <Title changeColor={changeColor} />
       </div>
       <div
         style={{
           width: "100%",
-          height: "85%",
+          height: "80%",
         }}
       >
         {/* selected artists */}
-        {artistInfo &&
-          artistInfo.map((artist) => {
-            return <div>{artist.name}</div>;
-          })}
+
         <div
           style={{
-            height: "15%",
+            height: "20%",
+            width: "100%",
           }}
         >
-          {" "}
-          <AddArtist token={token} updateArtists={updateArtists} />
+          {artistInfo &&
+            artistInfo.map((artist) => {
+              return (
+                <span>
+                  {/* {artist.name} */}
+                  {"        "}
+                  <img src={artist.image[0].url} style={{ height: "8vh" }} />
+                </span>
+              );
+            })}{" "}
+          {artistInfo.length < 5 && (
+            <AddArtist
+              token={token}
+              updateArtists={updateArtists}
+              artistInfo={artistInfo}
+            />
+          )}
         </div>
         <div
           style={{
-            height: "15%",
-          }}
-        >
-          {" "}
-          <Danceability updateDance={updateDance} />
-        </div>
-        <div
-          style={{
-            height: "15%",
+            height: "8%",
           }}
         >
           {" "}
@@ -117,7 +205,32 @@ export default function Preferences({ token, newPlaylist }) {
         </div>
         <div
           style={{
-            height: "15%",
+            height: "8%",
+          }}
+        >
+          {" "}
+          <Energy updateEnergy={updateEnergy} />
+        </div>
+        <div
+          style={{
+            height: "8%",
+          }}
+        >
+          {" "}
+          <Valence updateValence={updateValence} />
+        </div>
+        <div
+          style={{
+            height: "8%",
+          }}
+        >
+          {" "}
+          <Danceability updateDance={updateDance} />
+        </div>
+
+        <div
+          style={{
+            height: "8%",
           }}
         >
           {" "}
@@ -125,28 +238,60 @@ export default function Preferences({ token, newPlaylist }) {
         </div>
         <div
           style={{
-            height: "15%",
+            height: "8%",
+          }}
+        >
+          {" "}
+          <Tempo updateTempo={updateTempo} />
+        </div>
+
+        <div
+          style={{
+            height: "10%",
+            marginTop: "2%",
+            marginBottom: "4%",
           }}
         >
           {" "}
           <SongCount updateCount={updateCount} />
         </div>
-
-        <p
+        <div
+          style={{
+            height: "10%",
+            marginRight: "18vh",
+            marginTop: "2%",
+            float: "right",
+          }}
           onClick={() => {
-            console.log(
-              "all vals",
+            getPlaylist(
               artistIds,
               dance,
               acoust,
               popularity,
-              count
+              count,
+              valence,
+              tempo,
+              energy
             );
-            getPlaylist(artistIds, dance, acoust, popularity, count);
           }}
         >
-          Search
-        </p>
+          <img
+            style={{ height: "4rem" }}
+            src={
+              "https://www.iconsdb.com/icons/preview/white/music-note-xxl.png"
+            }
+            className="App-logo"
+            alt="logo"
+          />
+        </div>
+        <span
+          onClick={() => {
+            clearInputs();
+          }}
+          style={{ borderTopColor: "white" }}
+        >
+          <div style={{ fontSize: "30px" }}>Clear</div>
+        </span>
       </div>
     </div>
   );

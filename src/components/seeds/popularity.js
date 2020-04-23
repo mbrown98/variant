@@ -1,31 +1,35 @@
 import React, { useState, useEffect } from "react";
+import { Slider } from "@material-ui/core";
 
 export default function Popularity({ updatePopularity }) {
-  const [currentValue, setValue] = useState(50);
-  function handleSubmit(event) {
-    event.preventDefault();
-    updatePopularity(currentValue);
-  }
-  function handleChange(event) {
-    setValue(event.target.value);
-  }
+  const [val, setValue] = useState(50);
+
+  const handleChange = (name) => (e, value) => {
+    console.log("vlaue", value);
+    setValue(value);
+    updatePopularity(value);
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h4>Popularity</h4>
-      <input type="text" value={currentValue} onChange={handleChange} />
-
-      <input
-        style={{
-          marginLeft: "10px",
-          fontSize: "20px",
-          background: "black",
-          color: "white",
-          borderColor: "black",
-        }}
-        type="submit"
-        value="✓"
+    <div style={{ width: "80%" }}>
+      <div>
+        Popularity{" "}
+        <span
+          onClick={() => {
+            window.alert(
+              "In general the more a song is played the higher its popularity. The popularity rating is based on total number of plays compared to other tracks as well as how recent those plays are. "
+            );
+          }}
+        >
+          ⓘ
+        </span>
+      </div>{" "}
+      <Slider
+        defaultValue={50}
+        value={val}
+        aria-labelledby="label"
+        onChange={handleChange("slider1")}
       />
-    </form>
+    </div>
   );
 }
