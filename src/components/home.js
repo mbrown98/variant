@@ -13,6 +13,7 @@ import Col from "react-bootstrap/Col";
 export default function Home({ token, userId, changeColor }) {
   const [playlist, setPlaylist] = useState(null);
   const [playlistId, updatePlaylistId] = useState(null);
+  const [userPlaylists, updateUserPlaylists] = useState(null);
 
   function newPlaylist(data) {
     console.log("made it here", data);
@@ -24,9 +25,16 @@ export default function Home({ token, userId, changeColor }) {
     updatePlaylistId(val);
   }
 
-  // function getUpdatedPlaylists(){
-
-  // }
+  function getUserPlaylists() {
+    axios
+      .get("https://api.spotify.com/v1/me/playlists?limit=20", {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        console.log(response.data.items);
+        updateUserPlaylists(response.data.items);
+      });
+  }
 
   useEffect(() => {}, [playlist]);
 
@@ -59,6 +67,7 @@ export default function Home({ token, userId, changeColor }) {
             newPlaylist={newPlaylist}
             userId={userId}
             setPlaylistId={setPlaylistId}
+            getUserPlaylists={getUserPlaylists}
           />
         </Col>
         <Col md={7} style={{}}>
@@ -71,7 +80,12 @@ export default function Home({ token, userId, changeColor }) {
           />
         </Col>
         <Col md={2} style={{}}>
-          <RecentPlaylists token={token} setPlaylistId={setPlaylistId} />
+          <RecentPlaylists
+            token={token}
+            setPlaylistId={setPlaylistId}
+            userPlaylists={userPlaylists}
+            getUserPlaylists={getUserPlaylists}
+          />
         </Col>
       </Row>
     </Container>

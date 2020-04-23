@@ -4,22 +4,27 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
-export default function Recent({ token, setPlaylistId }) {
+export default function Recent({
+  token,
+  setPlaylistId,
+  getUserPlaylists,
+  userPlaylists,
+}) {
   const [playlist, setRecentPlaylists] = useState(null);
   useEffect(() => {
-    getRecentPlaylists();
+    getUserPlaylists();
   }, []);
 
-  function getRecentPlaylists() {
-    axios
-      .get("https://api.spotify.com/v1/me/playlists?limit=20", {
-        headers: { Authorization: "Bearer " + token },
-      })
-      .then((response) => {
-        console.log(response.data.items);
-        setRecentPlaylists(response.data.items);
-      });
-  }
+  // function getRecentPlaylists() {
+  //   axios
+  //     .get("https://api.spotify.com/v1/me/playlists?limit=20", {
+  //       headers: { Authorization: "Bearer " + token },
+  //     })
+  //     .then((response) => {
+  //       console.log(response.data.items);
+  //       setRecentPlaylists(response.data.items);
+  //     });
+  // }
 
   function removePlaylist(playlistId) {
     axios
@@ -28,7 +33,8 @@ export default function Recent({ token, setPlaylistId }) {
       })
       .then((response) => {
         console.log("deleted", response);
-        getRecentPlaylists();
+        // getRecentPlaylists();
+        getUserPlaylists();
       });
   }
 
@@ -40,9 +46,9 @@ export default function Recent({ token, setPlaylistId }) {
         float: "right",
       }}
     >
-      {playlist ? (
+      {userPlaylists ? (
         <div>
-          {playlist.map((playlist) => {
+          {userPlaylists.map((playlist) => {
             return (
               <div style={{ marginBottom: "20px" }}>
                 <img
