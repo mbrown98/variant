@@ -11,7 +11,9 @@ const aws = require("aws-sdk");
 
 var cli = "fa03926404524a918e10b1c07fe31da5";
 
-var redi = "https://salty-taiga-32207.herokuapp.com/oauth";
+// var redi = "https://salty-taiga-32207.herokuapp.com/oauth";
+
+var redi = "http://localhost:3000/auth";
 
 var scop =
   "user-read-private  streaming user-read-email playlist-modify-private playlist-modify-public";
@@ -28,25 +30,43 @@ class App extends Component {
     this.changeColor = this.changeColor.bind(this);
   }
   componentDidMount() {
-    var storedToken = sessionStorage.getItem("token");
+    var storedToken = JSON.parse(sessionStorage.getItem("token"));
+    var expiresAt = null;
+    let isExpired = null;
     if (storedToken) {
-      this.setState({
-        token: storedToken,
-      });
-      axios
-        .get("https://api.spotify.com/v1/me", {
-          headers: { Authorization: "Bearer " + storedToken },
-        })
-        .then((response) => {
-          console.log("myInfo", response.data.id);
-          this.setState({ userId: response.data.id });
-        });
+      expiresAt = new Date(storedToken.date);
+      expiresAt.setHours(expiresAt.getHours() + 1);
+
+      isExpired = expiresAt.getTime() < new Date().getTime();
+      console.log("current time", new Date().getTime());
+      console.log("expires", expiresAt);
+    }
+
+    if (storedToken && !isExpired) {
+      console.log("is not expired");
+      this.setState(
+        {
+          token: storedToken.token,
+        },
+        () => {
+          axios
+            .get("https://api.spotify.com/v1/me", {
+              headers: { Authorization: "Bearer " + storedToken },
+            })
+            .then((response) => {
+              console.log("myInfo", response.data.id);
+              this.setState({ userId: response.data.id });
+            });
+        }
+      );
     } else {
+      console.log("expired");
       let _token = hash.access_token;
 
       if (_token) {
         // Set token
-        sessionStorage.setItem("token", _token);
+        let store = { token: _token, date: new Date() };
+        sessionStorage.setItem("token", JSON.stringify(store));
         this.setState({
           token: _token,
         });
@@ -81,9 +101,7 @@ class App extends Component {
         ) : (
           <div style={{ marginLeft: "30px" }}>
             <img
-              src={
-                "https://www.iconsdb.com/icons/preview/white/music-note-xxl.png"
-              }
+              src={require("./musicNote.png")}
               className="App-logo"
               alt="logo"
             />

@@ -281,9 +281,7 @@ export default function Preferences({
         >
           <img
             style={{ height: "4rem" }}
-            src={
-              "https://www.iconsdb.com/icons/preview/white/music-note-xxl.png"
-            }
+            src={require("../musicNote.png")}
             className="App-logo"
             alt="logo"
           />

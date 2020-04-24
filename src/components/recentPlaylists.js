@@ -71,9 +71,7 @@ export default function Recent({
                         onClick={() => {
                           removePlaylist(playlist.id);
                         }}
-                        src={
-                          "https://www.materialui.co/materialIcons/action/delete_white_192x192.png"
-                        }
+                        src={require("../trash.png")}
                         style={{ height: "20px" }}
                       ></img>
                     </span>
