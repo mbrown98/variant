@@ -10,7 +10,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-export default function Home({ token, userId, changeColor }) {
+export default function Home({ token, userId, changeColor, expiresAt }) {
   const [playlist, setPlaylist] = useState(null);
   const [playlistId, updatePlaylistId] = useState(null);
   const [userPlaylists, updateUserPlaylists] = useState(null);
@@ -68,6 +68,7 @@ export default function Home({ token, userId, changeColor }) {
             userId={userId}
             setPlaylistId={setPlaylistId}
             getUserPlaylists={getUserPlaylists}
+            expiresAt={expiresAt}
           />
         </Col>
         <Col md={7} style={{}}>

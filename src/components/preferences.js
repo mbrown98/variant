@@ -17,6 +17,7 @@ export default function Preferences({
   setPlaylistId,
   changeColor,
   getUserPlaylists,
+  expiresAt,
 }) {
   const [artistIds, setArtistIds] = useState([]);
   const [artistInfo, updateArtistInfo] = useState([]);
@@ -165,7 +166,7 @@ export default function Preferences({
           height: "18%",
         }}
       >
-        <Title changeColor={changeColor} />
+        <Title changeColor={changeColor} expiresAt={expiresAt} />
       </div>
       <div
         style={{

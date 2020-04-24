@@ -14,9 +14,13 @@ export default function UserInputs({ token, updateArtists, artistInfo }) {
       })
       .then((response) => {
         console.log(response.data);
-        let artistInfo = response.data;
-        setValue("");
-        updateArtists(artistInfo);
+        if (response.data.artists.items[0]) {
+          let artistInfo = response.data;
+          setValue("");
+          updateArtists(artistInfo);
+        } else {
+          setValue("");
+        }
       });
   }
   function handleChange(event) {

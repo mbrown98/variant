@@ -26,6 +26,7 @@ class App extends Component {
       tokenTimeSet: null,
       userId: null,
       selectedColor: "black",
+      expiresAt: null,
     };
     this.changeColor = this.changeColor.bind(this);
   }
@@ -36,10 +37,9 @@ class App extends Component {
     if (storedToken) {
       expiresAt = new Date(storedToken.date);
       expiresAt.setHours(expiresAt.getHours() + 1);
+      // expiresAt.setMinutes(expiresAt.getMinutes() + 1);
 
       isExpired = expiresAt.getTime() < new Date().getTime();
-      console.log("current time", new Date().getTime());
-      console.log("expires", expiresAt);
     }
 
     if (storedToken && !isExpired) {
@@ -97,6 +97,7 @@ class App extends Component {
             token={this.state.token}
             userId={this.state.userId}
             changeColor={this.changeColor}
+            expiresAt={this.state.expiresAt}
           />
         ) : (
           <div style={{ marginLeft: "30px" }}>
