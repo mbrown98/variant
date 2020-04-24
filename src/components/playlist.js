@@ -43,6 +43,10 @@ export default function Playlist({
           <div style={{ paddingTop: "3vh" }}> 4. Generate</div>
 
           <div style={{ paddingTop: "3vh" }}>5. Enjoy a Variant Playlist</div>
+          <div style={{ paddingTop: "5vh", fontSize: "4vh" }}>
+            (Variant provides you with a playlist that includes your chosen
+            artists and other recommended artists based on your inputs)
+          </div>
         </div>
       )}
     </div>
