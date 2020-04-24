@@ -29,7 +29,17 @@ export default function Playlist({
           ></iframe>
         </div>
       ) : (
-        <div></div>
+        <div
+          style={{ paddingTop: "10vh", fontSize: "5vh", textAlign: "center" }}
+        >
+          <div style={{ paddingTop: "3vh" }}>1. Enter Up To Five Artists</div>
+          <div style={{ paddingTop: "3vh" }}>
+            2. Set Preferred Levels for Musical Inputs
+          </div>
+          <div style={{ paddingTop: "3vh" }}> 3. Generate</div>
+
+          <div style={{ paddingTop: "3vh" }}>4. Enjoy a Variant Playlist</div>
+        </div>
       )}
     </div>
   );
