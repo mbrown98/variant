@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 export default function Title({ changeColor, expiresAt }) {
-  var storedToken = JSON.parse(sessionStorage.getItem("token"));
-
   return (
     <div
       onClick={() => {

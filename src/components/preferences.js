@@ -28,6 +28,8 @@ export default function Preferences({
   const [valence, setValence] = useState(50);
   const [tempo, setTempo] = useState(50);
   const [energy, setEnergy] = useState(50);
+  const [hovered, changeHovered] = useState("false");
+  const [clearHovered, changeClearHovered] = useState("false");
 
   function clearInputs() {
     console.log("called");
@@ -36,6 +38,15 @@ export default function Preferences({
   }
 
   useEffect(() => {}, [artistIds]);
+
+  function setButtonBackground() {
+    console.log("hovereedddd");
+    changeHovered(!hovered);
+  }
+
+  function setClearBackground() {
+    changeClearHovered(!clearHovered);
+  }
 
   function updateArtists(data) {
     console.log("data", data);
@@ -188,7 +199,11 @@ export default function Preferences({
                 <span>
                   {/* {artist.name} */}
                   {"        "}
-                  <img src={artist.image[0].url} style={{ height: "8vh" }} />
+                  <img
+                    alt="artist"
+                    src={artist.image[0].url}
+                    style={{ height: "8vh" }}
+                  />
                 </span>
               );
             })}{" "}
@@ -263,6 +278,12 @@ export default function Preferences({
         <div style={{ height: "22%", width: "80%" }}>
           {" "}
           <div
+            onMouseEnter={() => {
+              setButtonBackground();
+            }}
+            onMouseLeave={() => {
+              setButtonBackground();
+            }}
             onClick={() => {
               getPlaylist(
                 artistIds,
@@ -284,15 +305,35 @@ export default function Preferences({
               textAlign: "center",
             }}
           >
-            <span style={{ borderStyle: "solid", padding: "5px" }}>
+            <span
+              style={{
+                borderStyle: "solid",
+                padding: "5px",
+                backgroundColor: hovered ? "black" : "white",
+                color: hovered ? "white" : "black",
+              }}
+            >
               Generate
             </span>
           </div>
           <div
+            alt="Clear"
             onClick={() => {
               clearInputs();
             }}
-            style={{ fontSize: "20px", height: "40%", textAlign: "center" }}
+            onMouseEnter={() => {
+              setClearBackground();
+            }}
+            onMouseLeave={() => {
+              setClearBackground();
+            }}
+            style={{
+              fontSize: "20px",
+              height: "40%",
+              textAlign: "center",
+              backgroundColor: clearHovered ? "black" : "white",
+              color: clearHovered ? "white" : "black",
+            }}
           >
             Clear
           </div>

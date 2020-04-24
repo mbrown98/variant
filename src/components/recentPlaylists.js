@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
-import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 
 export default function Recent({
   token,
@@ -10,7 +7,6 @@ export default function Recent({
   getUserPlaylists,
   userPlaylists,
 }) {
-  const [playlist, setRecentPlaylists] = useState(null);
   useEffect(() => {
     getUserPlaylists();
   }, []);
@@ -63,11 +59,12 @@ export default function Recent({
 
                 <span style={{ paddingLeft: "2rem" }}>
                   {" "}
-                  <div style={{ overflow: "scroll", width: "80%" }}>
+                  <div style={{ width: "80%" }}>
                     {playlist.name}{" "}
                     <span>
                       {" "}
                       <img
+                        alt="palylist"
                         onClick={() => {
                           removePlaylist(playlist.id);
                         }}

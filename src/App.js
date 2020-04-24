@@ -5,15 +5,13 @@ import "./App.css";
 import Home from "./components/home";
 import axios from "axios";
 
-const aws = require("aws-sdk");
-
 // import { clientId, redirectUri, scopes } from "./spotify_config";
 
 var cli = "fa03926404524a918e10b1c07fe31da5";
 
-var redi = "https://variant-music.herokuapp.com/oauth";
+// var redi = "https://variant-music.herokuapp.com/oauth";
 
-// var redi = "http://localhost:3000/auth";
+var redi = "http://localhost:3000/auth";
 
 var scop =
   "user-read-private  streaming user-read-email playlist-modify-private playlist-modify-public";

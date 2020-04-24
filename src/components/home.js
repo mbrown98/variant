@@ -4,7 +4,7 @@ import axios from "axios";
 
 import Playlist from "./playlist";
 import Preferences from "./preferences";
-import Recommendations from "./recommendations";
+
 import RecentPlaylists from "./recentPlaylists";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";

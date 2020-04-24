@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
+// import axios from "axios";
 
 export default function Playlist({
   playlist,
@@ -18,8 +18,9 @@ export default function Playlist({
   return (
     <div style={{ height: "100vh" }}>
       {playlistId ? (
-        <div style={{ overflow: "scroll", height: "100vh" }}>
+        <div style={{ height: "100vh" }}>
           <iframe
+            title="playlist"
             src={`https://open.spotify.com/embed/playlist/${playlistId}`}
             width="100%"
             height="100%"
