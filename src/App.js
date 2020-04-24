@@ -11,7 +11,7 @@ const aws = require("aws-sdk");
 
 var cli = "fa03926404524a918e10b1c07fe31da5";
 
-var redi = "https://salty-taiga-32207.herokuapp.com/oauth";
+var redi = "https://variant-music.herokuapp.com/oauth";
 
 // var redi = "http://localhost:3000/auth";
 
