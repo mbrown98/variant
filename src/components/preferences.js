@@ -260,41 +260,43 @@ export default function Preferences({
           {" "}
           <SongCount updateCount={updateCount} />
         </div>
-        <div
-          style={{
-            height: "10%",
-            marginRight: "18vh",
-            marginTop: "2%",
-            float: "right",
-          }}
-          onClick={() => {
-            getPlaylist(
-              artistIds,
-              dance,
-              acoust,
-              popularity,
-              count,
-              valence,
-              tempo,
-              energy
-            );
-          }}
-        >
-          <img
-            style={{ height: "4rem" }}
-            src={require("../musicNote.png")}
-            className="App-logo"
-            alt="logo"
-          />
+        <div style={{ height: "22%", width: "80%" }}>
+          {" "}
+          <div
+            onClick={() => {
+              getPlaylist(
+                artistIds,
+                dance,
+                acoust,
+                popularity,
+                count,
+                valence,
+                tempo,
+                energy
+              );
+            }}
+            style={{
+              fontSize: "30px",
+
+              width: "100%",
+              height: "60%",
+
+              textAlign: "center",
+            }}
+          >
+            <span style={{ borderStyle: "solid", padding: "5px" }}>
+              Generate
+            </span>
+          </div>
+          <div
+            onClick={() => {
+              clearInputs();
+            }}
+            style={{ fontSize: "20px", height: "40%", textAlign: "center" }}
+          >
+            Clear
+          </div>
         </div>
-        <span
-          onClick={() => {
-            clearInputs();
-          }}
-          style={{ borderTopColor: "white" }}
-        >
-          <div style={{ fontSize: "30px" }}>Clear</div>
-        </span>
       </div>
     </div>
   );
