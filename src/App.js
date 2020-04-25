@@ -7,14 +7,13 @@ import axios from "axios";
 
 // import { clientId, redirectUri, scopes } from "./spotify_config";
 
-var cli = "fa03926404524a918e10b1c07fe31da5";
+var cli = process.env.REACT_APP_CLIENT;
 
-var redi = "https://variant-music.herokuapp.com/oauth";
+var redi = process.env.REACT_APP_REDIRECT;
 
 // var redi = "http://localhost:3000/auth";
 
-var scop =
-  "user-read-private  streaming user-read-email playlist-modify-private playlist-modify-public";
+var scop = process.env.REACT_APP_SCOPE;
 
 class App extends Component {
   constructor() {
