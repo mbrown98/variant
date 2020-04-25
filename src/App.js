@@ -35,7 +35,6 @@ class App extends Component {
     if (storedToken) {
       expiresAt = new Date(storedToken.date);
       expiresAt.setHours(expiresAt.getHours() + 1);
-      // expiresAt.setMinutes(expiresAt.getMinutes() + 1);
 
       isExpired = expiresAt.getTime() < new Date().getTime();
     }
