@@ -6,7 +6,7 @@ export default function Title({ changeColor, expiresAt }) {
       onClick={() => {
         changeColor();
       }}
-      style={{ fontSize: "12vh", maxHeight: "50%" }}
+      style={{ fontSize: "12vh" }}
     >
       variant
     </div>

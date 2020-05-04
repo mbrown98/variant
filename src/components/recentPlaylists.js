@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Recent({
@@ -11,16 +11,8 @@ export default function Recent({
     getUserPlaylists();
   }, []);
 
-  // function getRecentPlaylists() {
-  //   axios
-  //     .get("https://api.spotify.com/v1/me/playlists?limit=20", {
-  //       headers: { Authorization: "Bearer " + token },
-  //     })
-  //     .then((response) => {
-  //       console.log(response.data.items);
-  //       setRecentPlaylists(response.data.items);
-  //     });
-  // }
+  const [opacity, setOpacity] = useState(0);
+  const [imageOpacity, setImageOpacity] = useState(1);
 
   function removePlaylist(playlistId) {
     axios
@@ -28,7 +20,6 @@ export default function Recent({
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {
-        console.log("deleted", response);
         // getRecentPlaylists();
         getUserPlaylists();
       });
@@ -46,34 +37,72 @@ export default function Recent({
         <div>
           {userPlaylists.map((playlist) => {
             return (
-              <div style={{ marginBottom: "20px" }}>
+              <div
+                className="container"
+                style={{
+                  position: "relative",
+                  width: "80%",
+                  marginBottom: "2vh",
+                }}
+                onMouseEnter={() => {
+                  setOpacity(1);
+                  setImageOpacity(0.5);
+                }}
+                onMouseLeave={() => {
+                  setOpacity(0);
+                  setImageOpacity(1);
+                }}
+              >
                 <img
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    height: "auto",
+                    opacity: imageOpacity,
+                  }}
+                  src={playlist.images[0] ? playlist.images[0].url : ""}
+                  alt="playlistImage"
+                  className="image"
+                />
+                <div
+                  class="overlay"
+                  style={{
+                    position: "absolute",
+                    top: "0",
+                    bottom: "0",
+                    left: "0",
+                    right: "0",
+                    height: "100%",
+                    width: "100%",
+                    opacity: opacity,
+
+                    color: "white",
+                  }}
                   onClick={() => {
                     setPlaylistId(playlist.id);
                   }}
-                  style={{ height: "100px" }}
-                  src={playlist.images[0] ? playlist.images[0].url : ""}
-                  alt="playlistImage"
-                  // className="img-responsive"
-                />
-
-                <span style={{ paddingLeft: "2rem" }}>
-                  {" "}
-                  <div style={{ width: "80%" }}>
-                    {playlist.name}{" "}
-                    <span>
-                      {" "}
-                      <img
-                        alt="palylist"
-                        onClick={() => {
-                          removePlaylist(playlist.id);
-                        }}
-                        src={require("../trash.png")}
-                        style={{ height: "20px" }}
-                      ></img>
-                    </span>
-                  </div>{" "}
-                </span>
+                >
+                  <div
+                    class="text"
+                    style={{ textAlign: "center", paddingTop: "2vh" }}
+                  >
+                    {playlist.name}
+                  </div>
+                  <div
+                    class="text"
+                    style={{ textAlign: "center", paddingTop: "20%" }}
+                  >
+                    {" "}
+                    <img
+                      alt="palylist"
+                      onClick={() => {
+                        removePlaylist(playlist.id);
+                      }}
+                      src={require("../trash.png")}
+                      style={{ height: "20px" }}
+                    ></img>
+                  </div>
+                </div>
               </div>
             );
           })}

@@ -9,6 +9,7 @@ var cli = process.env.REACT_APP_CLIENT;
 
 var redi = process.env.REACT_APP_REDIRECT;
 
+// "https://variant-mus.herokuapp.com/oauth"
 var scop = process.env.REACT_APP_SCOPE;
 
 class App extends Component {
@@ -18,10 +19,8 @@ class App extends Component {
       token: null,
       tokenTimeSet: null,
       userId: null,
-      selectedColor: "black",
       expiresAt: null,
     };
-    this.changeColor = this.changeColor.bind(this);
   }
   componentDidMount() {
     var storedToken = JSON.parse(sessionStorage.getItem("token"));
@@ -30,13 +29,11 @@ class App extends Component {
     if (storedToken) {
       expiresAt = new Date(storedToken.date);
       expiresAt.setHours(expiresAt.getHours() + 1);
-      // expiresAt.setMinutes(expiresAt.getMinutes() + 1);
 
       isExpired = expiresAt.getTime() < new Date().getTime();
     }
 
     if (storedToken && !isExpired) {
-      console.log("is not expired");
       this.setState(
         {
           token: storedToken.token,
@@ -47,13 +44,11 @@ class App extends Component {
               headers: { Authorization: "Bearer " + storedToken },
             })
             .then((response) => {
-              console.log("myInfo", response.data.id);
               this.setState({ userId: response.data.id });
             });
         }
       );
     } else {
-      console.log("expired");
       let _token = hash.access_token;
 
       if (_token) {
@@ -68,23 +63,15 @@ class App extends Component {
             headers: { Authorization: "Bearer " + storedToken },
           })
           .then((response) => {
-            console.log("myInfo", response.data.id);
             this.setState({ userId: response.data.id });
           });
       }
     }
   }
 
-  changeColor() {
-    console.log("not implemented yet");
-  }
-
   render() {
     return (
-      <div
-        className="App"
-        style={{ backgroundColor: `${this.state.selectedColor}` }}
-      >
+      <div className="App">
         {this.state.token ? (
           <Home
             token={this.state.token}
@@ -117,9 +104,6 @@ class App extends Component {
             </a>
           </div>
         )}
-        {/* {this.state.token && (
-        // Spotify Player Will Go Here In the Next Step
-      )} */}
       </div>
     );
   }

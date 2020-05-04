@@ -5,7 +5,6 @@ export default function Tempo({ updateTempo }) {
   const [val, setValue] = useState(50);
 
   const handleChange = (name) => (e, value) => {
-    console.log("vlaue", value);
     setValue(value);
     updateTempo(value);
   };

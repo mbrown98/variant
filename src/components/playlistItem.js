@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 export default function PlaylistItem({ track }) {
-  useEffect(() => {
-    // Update the document title using the browser API
-    console.log(track);
-  });
   let artist = track.artists[0].name;
   let artistId = track.artists[0].id;
   let trackName = track.name;

@@ -9,6 +9,7 @@ import SongCount from "./seeds/songCount";
 import Tempo from "./seeds/tempo";
 import Energy from "./seeds/energy";
 import Valence from "./seeds/valence";
+import Button from "react-bootstrap/Button";
 
 export default function Preferences({
   token,
@@ -28,28 +29,15 @@ export default function Preferences({
   const [valence, setValence] = useState(50);
   const [tempo, setTempo] = useState(50);
   const [energy, setEnergy] = useState(50);
-  const [hovered, changeHovered] = useState("false");
-  const [clearHovered, changeClearHovered] = useState("false");
 
   function clearInputs() {
-    console.log("called");
     setArtistIds([]);
     updateArtistInfo([]);
   }
 
   useEffect(() => {}, [artistIds]);
 
-  function setButtonBackground() {
-    console.log("hovereedddd");
-    changeHovered(!hovered);
-  }
-
-  function setClearBackground() {
-    changeClearHovered(!clearHovered);
-  }
-
   function updateArtists(data) {
-    console.log("data", data);
     let artistObj = {};
     artistObj.id = data.artists.items[0].id;
     artistObj.name = data.artists.items[0].name;
@@ -115,8 +103,6 @@ export default function Preferences({
         );
       })
       .then((response) => {
-        console.log(response);
-        console.log("URRRIISS", uriList);
         let playlist_id = response.data.id;
         setPlaylistId(playlist_id);
         let uris = uriList.toString();
@@ -275,15 +261,10 @@ export default function Preferences({
           {" "}
           <SongCount updateCount={updateCount} />
         </div>
-        <div style={{ height: "22%", width: "80%" }}>
+        <div style={{ height: "22%", width: "100%" }}>
           {" "}
-          <div
-            onMouseEnter={() => {
-              setButtonBackground();
-            }}
-            onMouseLeave={() => {
-              setButtonBackground();
-            }}
+          <Button
+            variant="outline-success"
             onClick={() => {
               getPlaylist(
                 artistIds,
@@ -296,47 +277,18 @@ export default function Preferences({
                 energy
               );
             }}
-            style={{
-              fontSize: "30px",
-
-              width: "100%",
-              height: "60%",
-
-              textAlign: "center",
-            }}
           >
-            <span
-              style={{
-                borderStyle: "solid",
-                padding: "5px",
-                backgroundColor: hovered ? "black" : "white",
-                color: hovered ? "white" : "black",
-              }}
-            >
-              Generate
-            </span>
-          </div>
-          <div
-            alt="Clear"
+            Generate Playlist
+          </Button>{" "}
+          <Button
+            variant="outline-danger"
             onClick={() => {
               clearInputs();
             }}
-            onMouseEnter={() => {
-              setClearBackground();
-            }}
-            onMouseLeave={() => {
-              setClearBackground();
-            }}
-            style={{
-              fontSize: "20px",
-              height: "40%",
-              textAlign: "center",
-              backgroundColor: clearHovered ? "black" : "white",
-              color: clearHovered ? "white" : "black",
-            }}
+            style={{ marginLeft: "10%" }}
           >
-            Clear
-          </div>
+            Clear Inputs
+          </Button>{" "}
         </div>
       </div>
     </div>

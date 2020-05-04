@@ -5,7 +5,6 @@ export default function Energy({ updateEnergy }) {
   const [val, setValue] = useState(50);
 
   const handleChange = (name) => (e, value) => {
-    console.log("vlaue", value);
     setValue(value);
     updateEnergy(value);
   };

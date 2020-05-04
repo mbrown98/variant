@@ -5,7 +5,6 @@ export default function Popularity({ updateCount }) {
   const [val, setValue] = useState(25);
 
   const handleChange = (name) => (e, value) => {
-    console.log("vlaue", value);
     setValue(value);
     updateCount(value);
   };
