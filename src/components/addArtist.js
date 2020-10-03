@@ -7,13 +7,13 @@ export default function UserInputs({ token, updateArtists, artistInfo }) {
   const [currentValue, setValue] = useState("");
   function handleSubmit(event) {
     event.preventDefault();
-    console.log("val", currentValue);
+   
     axios
       .get(`https://api.spotify.com/v1/search?q=${currentValue}&type=artist`, {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {
-        console.log(response.data);
+     
         if (response.data.artists.items[0]) {
           let artistInfo = response.data;
           setValue("");

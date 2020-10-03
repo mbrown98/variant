@@ -65,8 +65,7 @@ export default function Preferences({
   ) {
     let uriList = [];
     const artists = artistIds.toString();
-    console.log("art", artists);
-    console.log("artisitInfo", artistInfo);
+
     let artistNames = artistInfo.map((artist) => {
       return artist.name;
     });
@@ -88,7 +87,7 @@ export default function Preferences({
         uriList = response.data.tracks.map((track) => {
           return track.uri;
         });
-        console.log("response", response);
+     
         newPlaylist(response);
         return axios.post(
           `https://api.spotify.com/v1/users/${personalId}/playlists`,

@@ -70,6 +70,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("hello", process.env);
     return (
       <div className="App">
         {this.state.token ? (

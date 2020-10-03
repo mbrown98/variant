@@ -16,7 +16,7 @@ export default function Home({ token, userId, changeColor, expiresAt }) {
   const [userPlaylists, updateUserPlaylists] = useState(null);
 
   function newPlaylist(data) {
-    console.log("made it here", data);
+  
     setPlaylist(data);
   }
 
@@ -31,7 +31,7 @@ export default function Home({ token, userId, changeColor, expiresAt }) {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {
-        console.log(response.data.items);
+     
         updateUserPlaylists(response.data.items);
       });
   }
