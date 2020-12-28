@@ -9,3 +9,7 @@ variant. is a playlist generator using the Spotify Developer API. A user, once a
 ## Tech Used
 
 React (ES6, Hooks), Spotify API, Axios
+
+### Login
+
+![login](login.png)
